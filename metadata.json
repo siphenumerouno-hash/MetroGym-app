@@ -1,0 +1,7 @@
+{
+  "name": "Gym Community Journal",
+  "description": "A clean, modern gym journal for tracking workouts, discipline, and community progress. Features an intelligent workout generator and a relentless overtime timer.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
