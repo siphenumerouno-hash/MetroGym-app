@@ -2,12 +2,12 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { MuscleGroup, CardioPlacement, SessionPlan, Exercise } from "../types";
 
-export const generateWorkout = async (goal: string, type: MuscleGroup): Promise<Partial<SessionPlan>> => {
+export const generateWorkout = async (goal: string, type: MuscleGroup, count: number = 4): Promise<Partial<SessionPlan>> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
-    contents: `Design a high-impact gym session for the following goal: "${goal}". Target Muscle Group: ${type}. Provide exactly 4 exercises with sets and reps. Also suggest cardio placement (Start/End/None) and duration.`,
+    contents: `Design a high-impact gym session for the following goal: "${goal}". Target Muscle Group: ${type}. Provide exactly ${count} exercises with sets and reps. Also suggest cardio placement (Start/End/None) and duration.`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -41,7 +41,7 @@ export const generateWorkout = async (goal: string, type: MuscleGroup): Promise<
       workoutType: type,
       exerciseCount: data.exercises.length,
       exercises: data.exercises.map((e: any, i: number) => ({
-        id: `gen-${i}`,
+        id: `gen-${i}-${Date.now()}`,
         name: e.name,
         muscleGroup: type,
         sets: e.sets,

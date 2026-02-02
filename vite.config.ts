@@ -1,13 +1,15 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
   plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '.'),
-    },
+  define: {
+    // This allows process.env.API_KEY to work in the browser as specified in the guidelines
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
   },
-})
+  server: {
+    port: 3000,
+  },
+});
